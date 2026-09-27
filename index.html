@@ -1,630 +1,1084 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
-<meta charset="UTF-8" />
-<title>AI Baba – Personality Darshan</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<script src="https://cdn.tailwindcss.com"></script>
-<!-- Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <title>AI Baba – Personality Darshan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <meta name="description" content="AI Baba – Instagram Profile Personality Analysis" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
-/* 🌑 ASHRAM NIGHT DARSHAN THEME */
-body{
-  background:
-    radial-gradient(circle at top, rgba(255,153,51,.12), transparent 40%),
-    linear-gradient(#0b0b0b,#000);
-  font-family: Georgia, serif;
-}
+  <style>
+    /* 🌑 ASHRAM NIGHT DARSHAN THEME */
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
 
-/* 🔥 SCAN LINE */
-.scan-line{
-  position:absolute;
-  width:100%;
-  height:3px;
-  background:linear-gradient(to right,transparent,#ff9933,transparent);
-  animation:scan 2s linear infinite;
-}
-@keyframes scan{
-  0%{top:0}
-  50%{top:50%}
-  100%{top:100%}
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* 🕉️ RING */
-.ring{
-  position:absolute;
-  inset:-14px;
-  border-radius:50%;
-  border:2px dashed rgba(255,153,51,.45);
-  animation:spin 14s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
+    body {
+      background:
+        radial-gradient(circle at top, rgba(255, 153, 51, .12), transparent 40%),
+        linear-gradient(#0b0b0b, #000);
+      background-attachment: fixed;
+      font-family: Georgia, 'Times New Roman', serif;
+      overflow-x: hidden;
+    }
 
-/* 🕯️ TAPASYA BAR */
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ff9933,#facc15,#22c55e);
-  box-shadow:0 0 12px #ff9933;
-  transition:.5s;
-}
+    /* 🔥 SCAN LINE */
+    .scan-line {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, transparent, #ff9933, transparent);
+      animation: scan 2s linear infinite;
+      box-shadow: 0 0 12px #ff9933;
+    }
 
-/* 🔥 FIRE HOVER */
-#fireBox:hover img{
-  filter:drop-shadow(0 0 35px #ff4500);
-  transform:scale(1.05);
-}
+    @keyframes scan {
+      0% {
+        top: 0;
+      }
 
-/* 🧘 FOOTER STYLES */
-.footer-border {
-  border-top: 2px dashed rgba(255, 153, 51, 0.4);
-  border-bottom: 2px dashed rgba(255, 153, 51, 0.4);
-}
+      50% {
+        top: 50%;
+      }
 
-.footer-glow {
-  box-shadow: 0 -10px 30px rgba(255, 153, 51, 0.1),
-              inset 0 -10px 20px rgba(255, 153, 51, 0.05);
-}
+      100% {
+        top: 100%;
+      }
+    }
 
-.mantra-text {
-  background: linear-gradient(90deg, #ff9933, #facc15, #ff9933);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+    /* 🕉️ RING */
+    .ring {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 153, 51, .45);
+      animation: spin 14s linear infinite;
+    }
 
-/* 📜 EXPLANATION MODAL */
-.explanation-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-}
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
-.explanation-modal.active {
-  opacity: 1;
-  pointer-events: all;
-}
+    /* 🕯️ TAPASYA BAR */
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff9933, #facc15, #22c55e);
+      box-shadow: 0 0 12px #ff9933;
+      transition: width .5s ease;
+      border-radius: 999px;
+    }
 
-/* 📊 SYSTEM FLOW DIAGRAM */
-.flow-step {
-  position: relative;
-  padding-left: 2.5rem;
-}
+    /* 🔥 FIRE HOVER */
+    #fireBox {
+      transition: transform .3s ease;
+    }
 
-.flow-step::before {
-  content: "➡";
-  position: absolute;
-  left: 0;
-  color: #ff9933;
-  font-size: 1.2rem;
-}
+    #fireBox img {
+      transition: all .4s ease;
+    }
 
-.flow-step:first-child::before {
-  content: "🚀";
-}
+    #fireBox:hover img,
+    #fireBox:active img {
+      filter: drop-shadow(0 0 35px #ff4500);
+      transform: scale(1.05);
+    }
 
-/* 🔔 TELEGRAM STATUS */
-.telegram-status {
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0% { opacity: 0.7; }
-  50% { opacity: 1; }
-  100% { opacity: 0.7; }
-}
-</style>
+    /* 🧘 FOOTER STYLES */
+    .footer-border {
+      border-top: 2px dashed rgba(255, 153, 51, 0.4);
+      border-bottom: 2px dashed rgba(255, 153, 51, 0.4);
+    }
+
+    .footer-glow {
+      box-shadow: 0 -10px 30px rgba(255, 153, 51, 0.1),
+        inset 0 -10px 20px rgba(255, 153, 51, 0.05);
+    }
+
+    .mantra-text {
+      background: linear-gradient(90deg, #ff9933, #facc15, #ff9933);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* 📜 EXPLANATION MODAL */
+    .explanation-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .explanation-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* 📊 SYSTEM FLOW DIAGRAM */
+    .flow-step {
+      position: relative;
+      padding-left: 2.2rem;
+    }
+
+    .flow-step::before {
+      content: "➡";
+      position: absolute;
+      left: 0;
+      color: #ff9933;
+      font-size: 1.1rem;
+    }
+
+    .flow-step:first-child::before {
+      content: "🚀";
+    }
+
+    /* 🔔 TELEGRAM STATUS */
+    .telegram-status {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.7;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* ✨ FADE IN — Fixed: forwards removed to avoid opacity lock */
+    .fade-in {
+      animation: fadeIn .6s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 🎨 SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0b0b0b;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #ff9933;
+      border-radius: 999px;
+    }
+
+    /* 📱 RESPONSIVE FIXES */
+    @media (max-width: 480px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .ring {
+        inset: -10px;
+      }
+
+      .flow-step {
+        padding-left: 2rem;
+        font-size: 0.8rem;
+      }
+
+      #babaText {
+        font-size: 14px !important;
+        padding: 1rem !important;
+        line-height: 1.75 !important;
+      }
+    }
+
+    /* 🌟 GLOW BUTTON */
+    .glow-btn {
+      position: relative;
+      overflow: hidden;
+      transition: all .3s ease;
+    }
+
+    .glow-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, .3), transparent);
+      transform: translateX(-100%);
+      transition: transform .6s;
+    }
+
+    .glow-btn:hover::before {
+      transform: translateX(100%);
+    }
+
+    /* 📜 BABA TEXT — CRITICAL FIX */
+    #babaText {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+      /* ⭐ \n को natural break करेगा */
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    /* 🔮 PULSING ICON */
+    .pulse-icon {
+      animation: pulseIcon 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseIcon {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: .8;
+      }
+
+      50% {
+        transform: scale(1.08);
+        opacity: 1;
+      }
+    }
+
+    /* 🚫 LOADING SPINNER */
+    .spin {
+      animation: spin 1s linear infinite;
+    }
+  </style>
 </head>
 
-<body class="min-h-screen flex flex-col items-center justify-center text-[#f5f5dc] p-4">
+<body class="min-h-screen flex flex-col items-center justify-center text-[#f5f5dc] p-3 sm:p-4">
 
-<div class="w-full max-w-xl
-  bg-[#120a04]/80
-  border border-[#ff993340]
-  rounded-2xl
-  p-6
-  shadow-[0_0_40px_rgba(255,153,51,.15)]
-  mb-8">
+  <div class="w-full max-w-xl
+    bg-[#120a04]/80 backdrop-blur
+    border border-[#ff993340]
+    rounded-2xl
+    p-4 sm:p-6
+    shadow-[0_0_40px_rgba(255,153,51,.15)]
+    mb-6 sm:mb-8
+    fade-in">
 
-<h1 class="text-3xl font-bold text-center text-[#ff9933]">
-🧘‍♂️ AI Baba Expert
-</h1>
-<p class="text-center text-[#facc15]/70 mb-4">
-Apna INSTA USERNAME DALEI OR APNE BAARE MEI JANEI 🔮
-</p>
-
-<!-- 📨 TELEGRAM NOTIFICATION STATUS -->
-<div id="telegramStatus" class="hidden mb-4 p-3 rounded-xl border border-[#22c55e40] bg-[#052e16]/30">
-  <div class="flex items-center gap-3">
-    <div class="telegram-status">
-      <i class="fab fa-telegram text-[#22c55e] text-xl"></i>
-    </div>
-    <div>
-      <p class="text-sm text-[#f5f5dc]">
-        <span class="text-[#22c55e] font-bold">Telegram Notification:</span>
-        <span id="statusText">Baba ne telegram par message bheja...</span>
-      </p>
-    </div>
-  </div>
-</div>
-
-<!-- INPUT -->
-<div class="flex gap-2 mb-2">
-  <input id="username" placeholder="USERNAME DAAL BACCHA"
-    class="flex-1 px-4 py-2 rounded
-    bg-black/70 border border-[#ff993340]
-    focus:outline-none focus:border-[#ff9933]">
-  <button onclick="startScan()"
-    class="px-6 py-2 rounded-xl
-    bg-[#ff9933] text-black font-bold">
-    Scan
-  </button>
-</div>
-
-<p class="text-xs text-center text-[#facc15]/60 mb-6">
-USERNAME likhne se pehle man shant rakh Baccha 🧘‍♂️
-</p>
-
-<div id="profile" class="hidden">
-
-<!-- DP -->
-<div class="flex justify-center mb-6">
-  <div class="relative w-56 h-56">
-    <div class="ring"></div>
-    <div id="dpWrap"
-      class="relative w-full h-full rounded-full overflow-hidden
-      border-2 border-[#ff9933]
-      flex items-center justify-center">
-
-      <img id="dp" class="absolute w-full h-full object-cover hidden">
-      <div id="scanLine" class="scan-line"></div>
-      <div id="babaIcon" class="text-6xl opacity-0 transition">🕉️</div>
-    </div>
-  </div>
-</div>
-
-<!-- STATS -->
-<div class="flex justify-around text-center mb-5 text-sm">
-  <div><p id="followers">–</p><small>Followers</small></div>
-  <div><p id="following">–</p><small>Following</small></div>
-  <div><p id="posts">–</p><small>Posts</small></div>
-</div>
-
-<!-- 🔥 FIRE -->
-<div class="flex flex-col items-center gap-2 mb-6">
-  <div id="fireBox" class="cursor-pointer transition active:scale-95">
-    <img src="havan-yaj.gif"
-      class="w-28 h-28 rounded-full shadow-[0_0_30px_#ff4500]">
-  </div>
-  <p class="text-red-400 text-sm font-semibold">
-⚠️ कृपया आग को न छुएं
-  </p>
-</div>
-
-<audio id="fireAudio" preload="auto">
-  <source src="mkb-aag-amitabh-bachchan-meme-audio-download-link-in-comments-128-ytshorts.savetube.me.mp3" type="audio/mpeg">
-</audio>
-
-<!-- 🕯️ TAPASYA METER -->
-<div id="progressSection" class="mb-6">
-  <div class="flex justify-between text-xs mb-1 text-[#facc15]">
-    <span id="tapText">🕯️ Baba tapasya mein hain…</span>
-    <span id="percent">0%</span>
-  </div>
-  <div class="h-3 bg-black/70 rounded overflow-hidden border border-[#ff993340]">
-    <div id="progressBar" class="progress-bar"></div>
-  </div>
-</div>
-
-<!-- 📜 REPORT GENERATED MESSAGE -->
-<div id="reportReadyMsg"
-  class="hidden mb-6 p-4 rounded-xl text-center
-  bg-gradient-to-b from-[#1a0f05] to-[#0b0603]
-  border border-[#22c55e40]
-  shadow-[0_0_20px_rgba(34,197,94,.25)]">
-
-  <p class="text-[#22c55e] font-bold text-lg mb-1">
-    📜 Report Taiyaar Ho Chuki Hai
-  </p>
-  <p class="text-[#f5f5dc]/80 text-sm">
-    Baba ne tapasya poori kar li hai,  
-    ab gyaan tumhare samne hai baccha 🧘‍♂️
-  </p>
-</div>
-
-
-<!-- 📜 PURANA GRANTH -->
-<div id="babaText"
-  class="mt-6 p-5 rounded-xl
-  text-[#f5f5dc] leading-relaxed text-[15px]
-  bg-gradient-to-b from-[#1a0f05] to-[#0b0603]
-  border border-[#ff993340]
-  shadow-[inset_0_0_20px_rgba(0,0,0,.8),0_0_20px_rgba(255,153,51,.15)]">
-
-📜 <span class="text-[#facc15] font-semibold">
-Baba granth dekh rahe hain…
-</span>
-</div>
-
-<p class="text-[11px] text-center text-[#f5f5dc]/50 mt-6">
-🧿 Is gyaan ka galat upyog na karein.  
-Baba sirf raasta dikhate hain.
-</p>
-
-</div>
-
-<!-- 🧘‍♂️ FOOTER IN BABA STYLE -->
-<footer class="w-full max-w-4xl mt-6 footer-border footer-glow rounded-2xl p-6 bg-gradient-to-b from-[#1a0f05] to-[#0b0603]">
-  <div class="text-center mb-6">
-    <h3 class="text-xl font-bold mantra-text mb-2">
-      ॐ नमः शिवाय
-    </h3>
-    <p class="text-[#facc15] text-sm">
-      सर्वं ज्ञानमयम् निर्मितं हिमांशु यादवेन
+    <h1 class="text-2xl sm:text-3xl font-bold text-center text-[#ff9933] flex items-center justify-center gap-2">
+      <span class="pulse-icon">🧘‍♂️</span>
+      <span>AI Baba Expert</span>
+    </h1>
+    <p class="text-center text-[#facc15]/70 mb-4 text-xs sm:text-sm px-2">
+      Apna INSTA USERNAME DALEI OR APNE BAARE MEI JANEI 🔮
     </p>
-    <p class="text-[#f5f5dc]/70 text-xs mt-1">
-      Created with deep tapasya by Himanshu Yadav
-    </p>
-  </div>
 
-  <!-- 🔮 SYSTEM WORKING FLOW - CLICKABLE -->
-  <div id="systemFlow" class="cursor-pointer p-5 rounded-xl border border-[#ff993340] bg-black/40 mb-6 hover:bg-black/60 transition group">
-    <div class="flex items-center justify-between mb-3">
-      <h4 class="text-[#ff9933] font-bold text-lg flex items-center gap-2">
-        <i class="fas fa-cogs"></i>
-        यंत्र कैसे काम करता है? (Click to know)
-      </h4>
-      <span class="text-[#facc15] text-2xl group-hover:animate-bounce">🔽</span>
-    </div>
-    
-    <div id="flowSteps" class="hidden space-y-3 text-sm text-[#f5f5dc]/90">
-      <div class="flow-step">
-        <span class="text-[#ff9933] font-semibold">STEP 1:</span> User Instagram username input karta hai
-      </div>
-      <div class="flow-step">
-        <span class="text-[#ff9933] font-semibold">STEP 2:</span> Username bheja jata hai scraping API ko (mainapi-lake.vercel.app)
-      </div>
-      <div class="flow-step">
-        <span class="text-[#ff9933] font-semibold">STEP 3:</span> API se milta hai: DP, Followers, Following, Posts count
-      </div>
-      <div class="flow-step">
-        <span class="text-[#ff9933] font-semibold">STEP 4:</span> Yeh data ChatGPT API ko bheja jata hai (https://baba-backend.vercel.app/)
-      </div>
-      <div class="flow-step">
-        <span class="text-[#ff9933] font-semibold">STEP 5:</span> ChatGPT personality analysis generate karta hai
-      </div>
-      <div class="flow-step">
-        <span class="text-[#ff9933] font-semibold">STEP 6:</span> <span class="text-[#22c55e]">📨 TELEGRAM NOTIFICATION</span> bheji jaati hai
-      </div>
-      <div class="flow-step">
-        <span class="text-[#ff9933] font-semibold">STEP 7:</span> Final "Baba Vani" display hoti hai spiritual format mein
-      </div>
-    </div>
-  </div>
-
-  <!-- 📞 CONTACT LINKS -->
-  <div class="flex flex-wrap justify-center gap-4 mb-6">
-    <a href="https://instagram.com/himanshu_yadav479" target="_blank"
-      class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#1a0f05] to-[#2a1505] border border-[#ff993340] hover:border-[#ff9933] transition">
-      <i class="fab fa-instagram text-[#ff9933]"></i>
-      <span class="text-[#f5f5dc] text-sm">Instagram</span>
-    </a>
-    
-    <a href="https://wa.me/918534866350" target="_blank"
-      class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#1a0f05] to-[#2a1505] border border-[#ff993340] hover:border-[#ff9933] transition">
-      <i class="fab fa-whatsapp text-[#ff9933]"></i>
-      <span class="text-[#f5f5dc] text-sm">WhatsApp</span>
-    </a>
-    
-    <a href="tel:+918534866350"
-      class="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#1a0f05] to-[#2a1505] border border-[#ff993340] hover:border-[#ff9933] transition">
-      <i class="fas fa-phone-alt text-[#ff9933]"></i>
-      <span class="text-[#f5f5dc] text-sm">Call</span>
-    </a>
-  </div>
-
-  <!-- 📧 FEEDBACK -->
-  <div class="text-center">
-    <a href="mailto:azp729012@gmail.com"
-      class="inline-flex items-center gap-2 text-[#facc15] hover:text-[#ff9933] transition text-sm">
-      <i class="fas fa-envelope"></i>
-      Send Tapasya Feedback
-    </a>
-    <p class="text-[10px] text-[#f5f5dc]/50 mt-4">
-      © <span id="currentYear"></span> AI Baba Darshan. Sabhi adhikar maharishi Himanshu ke paas.
-      <br>Yeh keval gyaan ke liye hai, vyaktigat upyog ke liye nahi.
-    </p>
-  </div>
-</footer>
-
-</div>
-
-<!-- 📜 DETAILED EXPLANATION MODAL -->
-<div id="explanationModal" class="explanation-modal">
-  <div class="w-full max-w-2xl bg-gradient-to-b from-[#1a0f05] to-[#0b0603] border-2 border-[#ff9933] rounded-2xl p-6 m-4 relative">
-    <button onclick="closeExplanation()" class="absolute top-4 right-4 text-[#ff9933] text-2xl hover:text-[#facc15]">
-      ✕
-    </button>
-    
-    <h2 class="text-2xl font-bold text-center mantra-text mb-6">
-      🧠 पूरा सिस्टम कैसे काम करता है
-    </h2>
-    
-    <div class="space-y-4 text-[#f5f5dc]">
-      <div class="p-4 rounded-xl border border-[#ff993340] bg-black/30">
-        <h3 class="text-[#ff9933] font-bold mb-2">📊 System Architecture:</h3>
-        <p class="text-sm">Frontend → API Calls → Telegram Notification → AI Analysis → Display</p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-4 rounded-xl border border-[#ff993340] bg-black/30">
-          <h4 class="text-[#facc15] font-bold mb-2">🔄 Real-time Flow:</h4>
-          <ol class="list-decimal pl-5 text-sm space-y-1">
-            <li>User enters Instagram username</li>
-            <li>Telegram notification #1 sent</li>
-            <li>Fetch request to scraping API</li>
-            <li>Get profile data (JSON format)</li>
-            <li>Display basic stats immediately</li>
-            <li>Send data to ChatGPT API</li>
-            <li>Telegram notification #2 sent with report</li>
-            <li>Format and display final report</li>
-          </ol>
+    <!-- 📨 TELEGRAM NOTIFICATION STATUS -->
+    <div id="telegramStatus" class="hidden mb-4 p-3 rounded-xl border border-[#22c55e40] bg-[#052e16]/30">
+      <div class="flex items-center gap-3">
+        <div class="telegram-status shrink-0">
+          <i class="fab fa-telegram text-[#22c55e] text-xl"></i>
         </div>
-        
-        <div class="p-4 rounded-xl border border-[#ff993340] bg-black/30">
-          <h4 class="text-[#facc15] font-bold mb-2">🔧 Technologies Used:</h4>
-          <ul class="text-sm space-y-1">
-            <li>• HTML5 + Tailwind CSS (UI)</li>
-            <li>• JavaScript (Interactivity)</li>
-            <li>• Instagram Scraping API</li>
-            <li>• ChatGPT/OpenAI API (Analysis)</li>
-            <li>• Telegram Bot API (Notifications)</li>
-            <li>• CSS Animations (Effects)</li>
-          </ul>
+        <div class="min-w-0">
+          <p class="text-xs sm:text-sm text-[#f5f5dc] break-words">
+            <span class="text-[#22c55e] font-bold">Telegram:</span>
+            <span id="statusText">Baba ne telegram par message bheja...</span>
+          </p>
         </div>
       </div>
-      
-      <div class="p-4 rounded-xl border border-[#ff993340] bg-black/30">
-        <h4 class="text-[#facc15] font-bold mb-2">📡 API Endpoints:</h4>
-        <div class="space-y-2 text-xs font-mono">
-          <div class="flex items-center gap-2">
-            <span class="bg-[#ff993320] px-2 py-1 rounded">GET</span>
-            <span class="text-[#facc15]">https://mainapi-lake.vercel.app/scrape/{username}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="bg-[#ff993320] px-2 py-1 rounded">POST</span>
-            <span class="text-[#facc15]">https://baba-backend.vercel.app/generate-report</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="bg-[#22c55e20] px-2 py-1 rounded">POST</span>
-            <span class="text-[#22c55e]">https://api.telegram.org/botTOKEN/sendMessage</span>
+    </div>
+
+    <!-- INPUT -->
+    <div class="flex flex-col sm:flex-row gap-2 mb-2">
+      <input id="username" placeholder="USERNAME DAAL BACCHA" autocomplete="off" spellcheck="false" class="flex-1 px-4 py-2.5 rounded-lg
+        bg-black/70 border border-[#ff993340]
+        text-sm sm:text-base
+        focus:outline-none focus:border-[#ff9933]
+        focus:shadow-[0_0_15px_rgba(255,153,51,.3)]
+        transition-all duration-300">
+
+      <button onclick="startScan()" id="scanBtn" class="glow-btn px-6 py-2.5 rounded-lg
+        bg-[#ff9933] text-black font-bold
+        hover:bg-[#facc15] active:scale-95
+        transition-all duration-300
+        text-sm sm:text-base
+        shadow-[0_0_20px_rgba(255,153,51,.4)]
+        disabled:opacity-60 disabled:cursor-not-allowed">
+        <i class="fas fa-search mr-1"></i> Scan
+      </button>
+    </div>
+
+    <p class="text-[10px] sm:text-xs text-center text-[#facc15]/60 mb-6">
+      USERNAME likhne se pehle man shant rakh Baccha 🧘‍♂️
+    </p>
+
+    <div id="profile" class="hidden">
+
+      <!-- DP -->
+      <div class="flex justify-center mb-6">
+        <div class="relative w-40 h-40 sm:w-56 sm:h-56">
+          <div class="ring"></div>
+          <div id="dpWrap" class="relative w-full h-full rounded-full overflow-hidden
+            border-2 border-[#ff9933]
+            flex items-center justify-center
+            bg-black/60
+            shadow-[0_0_25px_rgba(255,153,51,.3)]">
+
+            <img id="dp" class="absolute w-full h-full object-cover hidden" alt="Profile">
+            <div id="scanLine" class="scan-line"></div>
+            <div id="babaIcon" class="text-5xl sm:text-6xl opacity-0 transition-opacity duration-500">🕉️</div>
           </div>
         </div>
       </div>
-      
-      <div class="text-center mt-6">
-        <button onclick="closeExplanation()" class="px-6 py-2 rounded-xl bg-[#ff9933] text-black font-bold hover:bg-[#facc15] transition">
-          समझ गया बाबा! 🙏
+
+      <!-- STATS -->
+      <div class="flex justify-around text-center mb-5 text-sm
+        bg-black/30 rounded-xl py-3 border border-[#ff993320]">
+        <div class="flex-1">
+          <p id="followers" class="text-[#ff9933] font-bold text-base sm:text-lg">–</p>
+          <small class="text-[#f5f5dc]/60 text-[10px] sm:text-xs">Followers</small>
+        </div>
+        <div class="w-px bg-[#ff993330]"></div>
+        <div class="flex-1">
+          <p id="following" class="text-[#ff9933] font-bold text-base sm:text-lg">–</p>
+          <small class="text-[#f5f5dc]/60 text-[10px] sm:text-xs">Following</small>
+        </div>
+        <div class="w-px bg-[#ff993330]"></div>
+        <div class="flex-1">
+          <p id="posts" class="text-[#ff9933] font-bold text-base sm:text-lg">–</p>
+          <small class="text-[#f5f5dc]/60 text-[10px] sm:text-xs">Posts</small>
+        </div>
+      </div>
+
+      <!-- 🔥 FIRE -->
+      <div class="flex flex-col items-center gap-2 mb-6">
+        <div id="fireBox" class="cursor-pointer transition active:scale-95">
+          <img src="havan-yaj.gif" alt="Havan" loading="lazy"
+            class="w-20 h-20 sm:w-28 sm:h-28 rounded-full shadow-[0_0_30px_#ff4500] object-cover">
+        </div>
+        <p class="text-red-400 text-xs sm:text-sm font-semibold">
+          ⚠️ कृपया आग को न छुएं
+        </p>
+      </div>
+
+      <audio id="fireAudio" preload="auto">
+        <source src="mkb-aag-amitabh-bachchan-meme-audio-download-link-in-comments-128-ytshorts.savetube.me.mp3"
+          type="audio/mpeg">
+      </audio>
+
+      <!-- 🕯️ TAPASYA METER -->
+      <div id="progressSection" class="mb-6">
+        <div class="flex justify-between text-xs mb-1.5 text-[#facc15]">
+          <span id="tapText" class="truncate pr-2">🕯️ Baba tapasya mein hain…</span>
+          <span id="percent" class="shrink-0 font-bold">0%</span>
+        </div>
+        <div class="h-3 bg-black/70 rounded-full overflow-hidden border border-[#ff993340]">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </div>
+
+      <!-- ⏳ LOADING SKELETON -->
+      <div id="loadingBox" class="hidden mb-6">
+        <div class="animate-pulse space-y-3 p-4 bg-black/40 rounded-xl border border-[#ff993320]">
+          <div class="h-4 bg-[#ff993320] rounded w-3/4 mx-auto"></div>
+          <div class="h-4 bg-[#ff993320] rounded w-full"></div>
+          <div class="h-4 bg-[#ff993320] rounded w-5/6 mx-auto"></div>
+          <div class="h-4 bg-[#ff993320] rounded w-2/3 mx-auto"></div>
+        </div>
+        <p class="text-center text-[#facc15] text-sm mt-3">
+          🧠 Baba AI se gyaan maang rahe hain...
+        </p>
+      </div>
+
+      <!-- ❌ ERROR BOX -->
+      <div id="errorBox" class="hidden mb-6 p-4 rounded-xl text-center
+        bg-gradient-to-b from-[#1a0505] to-[#0b0303]
+        border border-[#ef444440]
+        shadow-[0_0_20px_rgba(239,68,68,.25)]">
+        <p class="text-[#ef4444] font-bold text-base sm:text-lg mb-1">
+          ⚠️ Baba Ko Dikkat Aayi
+        </p>
+        <p id="errorText" class="text-[#f5f5dc]/80 text-xs sm:text-sm mb-3"></p>
+        <button onclick="startScan()"
+          class="px-4 py-1.5 rounded-lg bg-[#ef4444] text-white text-xs font-bold hover:bg-[#dc2626] transition active:scale-95">
+          🔄 Dobara Try Karo
         </button>
       </div>
+
+      <!-- 📜 REPORT READY MESSAGE -->
+      <div id="reportReadyMsg" class="hidden mb-6 p-4 rounded-xl text-center
+        bg-gradient-to-b from-[#1a0f05] to-[#0b0603]
+        border border-[#22c55e40]
+        shadow-[0_0_20px_rgba(34,197,94,.25)]">
+        <p class="text-[#22c55e] font-bold text-base sm:text-lg mb-1">
+          📜 Report Taiyaar Ho Chuki Hai
+        </p>
+        <p class="text-[#f5f5dc]/80 text-xs sm:text-sm">
+          Baba ne tapasya poori kar li hai, ab gyaan tumhare samne hai baccha 🧘‍♂️
+        </p>
+      </div>
+
+      <!-- 📜 PURANA GRANTH — REPORT DISPLAY -->
+      <div id="babaText" class="mt-6 p-4 sm:p-5 rounded-xl
+        text-[#f5f5dc] leading-relaxed text-[15px] sm:text-base
+        bg-gradient-to-b from-[#1a0f05] to-[#0b0603]
+        border border-[#ff993340]
+        shadow-[inset_0_0_20px_rgba(0,0,0,.8),0_0_20px_rgba(255,153,51,.15)]">
+        📜 <span class="text-[#facc15] font-semibold">Baba granth dekh rahe hain…</span>
+      </div>
+
+      <p class="text-[10px] sm:text-[11px] text-center text-[#f5f5dc]/50 mt-6">
+        🧿 Is gyaan ka galat upyog na karein. Baba sirf raasta dikhate hain.
+      </p>
+
+    </div>
+
+    <!-- 🧘‍♂️ FOOTER IN BABA STYLE -->
+    <footer class="w-full max-w-xl mt-6 footer-border footer-glow rounded-2xl p-4 sm:p-6
+      bg-gradient-to-b from-[#1a0f05] to-[#0b0603]">
+
+      <div class="text-center mb-6">
+        <h3 class="text-lg sm:text-xl font-bold mantra-text mb-2">
+          ॐ नमः शिवाय
+        </h3>
+        <p class="hidden text-[#facc15] text-xs sm:text-sm">
+          सर्वं ज्ञानमयम् निर्मितं हिमांशु यादवेन
+        </p>
+        <p class="text-[#f5f5dc]/70 text-[10px] sm:text-xs mt-1">
+          Created with deep tapasya by Himanshu Yadav
+        </p>
+      </div>
+
+      <!-- 🔮 SYSTEM WORKING FLOW -->
+      <div id="systemFlow" class="cursor-pointer p-4 sm:p-5 rounded-xl border border-[#ff993340] bg-black/40 mb-6
+        hover:bg-black/60 transition group">
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <h4 class="text-[#ff9933] font-bold text-sm sm:text-lg flex items-center gap-2">
+            <i class="fas fa-cogs"></i>
+            <span class="leading-tight">यंत्र कैसे काम करता है?</span>
+          </h4>
+          <span class="text-[#facc15] text-xl sm:text-2xl group-hover:animate-bounce shrink-0">🔽</span>
+        </div>
+
+        <div id="flowSteps" class="hidden space-y-3 text-xs sm:text-sm text-[#f5f5dc]/90">
+          <div class="flow-step">
+            <span class="text-[#ff9933] font-semibold">STEP 1:</span> User Instagram username input karta hai
+          </div>
+          <div class="flow-step">
+            <span class="text-[#ff9933] font-semibold">STEP 2:</span> Username bheja jata hai scraping API ko
+          </div>
+          <div class="flow-step">
+            <span class="text-[#ff9933] font-semibold">STEP 3:</span> API se milta hai: DP, Followers, Following, Posts
+            count
+          </div>
+          <div class="flow-step">
+            <span class="text-[#ff9933] font-semibold">STEP 4:</span> Yeh data AI Backend ko bheja jata hai
+          </div>
+          <div class="flow-step">
+            <span class="text-[#ff9933] font-semibold">STEP 5:</span> AI personality analysis generate karta hai
+          </div>
+          <div class="hidden flow-step">
+            <span class="text-[#ff9933] font-semibold">STEP 6:</span> <span class="text-[#22c55e]">📨 TELEGRAM
+              NOTIFICATION</span> bheji jaati hai
+          </div>
+          <div class="flow-step">
+            <span class="text-[#ff9933] font-semibold">STEP 7:</span> Final "Baba Vani" display hoti hai
+          </div>
+        </div>
+      </div>
+
+      <!-- 📞 CONTACT LINKS -->
+      <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6">
+        <a href="https://instagram.com/himanshuu.dev" target="_blank" rel="noopener" class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full
+          bg-gradient-to-r from-[#1a0f05] to-[#2a1505]
+          border border-[#ff993340] hover:border-[#ff9933]
+          transition active:scale-95">
+          <i class="fab fa-instagram text-[#ff9933]"></i>
+          <span class="text-[#f5f5dc] text-xs sm:text-sm">Instagram</span>
+        </a>
+
+        <a href="https://wa.me/918534866350" target="_blank" rel="noopener" class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full
+          bg-gradient-to-r from-[#1a0f05] to-[#2a1505]
+          border border-[#ff993340] hover:border-[#ff9933]
+          transition active:scale-95">
+          <i class="fab fa-whatsapp text-[#ff9933]"></i>
+          <span class="text-[#f5f5dc] text-xs sm:text-sm">WhatsApp</span>
+        </a>
+
+        <a href="tel:+918534866350" class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full
+          bg-gradient-to-r from-[#1a0f05] to-[#2a1505]
+          border border-[#ff993340] hover:border-[#ff9933]
+          transition active:scale-95">
+          <i class="fas fa-phone-alt text-[#ff9933]"></i>
+          <span class="text-[#f5f5dc] text-xs sm:text-sm">Call</span>
+        </a>
+      </div>
+
+      <!-- 📧 FEEDBACK -->
+      <div class="text-center">
+        <a href="mailto:azp729012@gmail.com"
+          class="inline-flex items-center gap-2 text-[#facc15] hover:text-[#ff9933] transition text-xs sm:text-sm">
+          <i class="fas fa-envelope"></i>
+          Send Tapasya Feedback
+        </a>
+        <p class="text-[9px] sm:text-[10px] text-[#f5f5dc]/50 mt-4 leading-relaxed">
+          © <span id="currentYear"></span> AI Baba Darshan. Sabhi adhikar maharishi Himanshu ke paas.
+          <br>Yeh keval gyaan ke liye hai, vyaktigat upyog ke liye nahi.
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 📜 DETAILED EXPLANATION MODAL -->
+  <div id="explanationModal" class="explanation-modal">
+    <div class="w-full max-w-2xl
+      bg-gradient-to-b from-[#1a0f05] to-[#0b0603]
+      border-2 border-[#ff9933] rounded-2xl
+      p-4 sm:p-6 my-4 relative max-h-[90vh] overflow-y-auto">
+
+      <button onclick="closeExplanation()"
+        class="absolute top-3 right-3 text-[#ff9933] text-2xl hover:text-[#facc15] transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-black/40">
+        ✕
+      </button>
+
+      <h2 class="text-xl sm:text-2xl font-bold text-center mantra-text mb-6 pr-8">
+        🧠 पूरा सिस्टम कैसे काम करता है
+      </h2>
+
+      <div class="space-y-4 text-[#f5f5dc]">
+        <div class="p-3 sm:p-4 rounded-xl border border-[#ff993340] bg-black/30">
+          <h3 class="text-[#ff9933] font-bold mb-2 text-sm sm:text-base">📊 System Architecture:</h3>
+          <p class="text-xs sm:text-sm">Frontend → API Calls →  → AI Analysis → Display</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-3 sm:p-4 rounded-xl border border-[#ff993340] bg-black/30">
+            <h4 class="text-[#facc15] font-bold mb-2 text-sm sm:text-base">🔄 Real-time Flow:</h4>
+            <ol class="list-decimal pl-5 text-xs sm:text-sm space-y-1">
+              <li>User enters Instagram username</li>
+              <li>Telegram notification #1 sent</li>
+              <li>Fetch request to scraping API</li>
+              <li>Get profile data (JSON format)</li>
+              <li>Display basic stats immediately</li>
+              <li>Send data to AI Backend</li>
+              <li>Telegram notification #2 sent</li>
+              <li>Format and display final report</li>
+            </ol>
+          </div>
+
+          <div class="p-3 sm:p-4 rounded-xl border border-[#ff993340] bg-black/30">
+            <h4 class="text-[#facc15] font-bold mb-2 text-sm sm:text-base">🔧 Technologies Used:</h4>
+            <ul class="text-xs sm:text-sm space-y-1">
+              <li>• HTML5 + Tailwind CSS (UI)</li>
+              <li>• JavaScript (Interactivity)</li>
+              <li>• Instagram Scraping API</li>
+              <li>• OpenRouter AI (Analysis)</li>
+              <li>• Telegram Bot API (Notifications)</li>
+              <li>• CSS Animations (Effects)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-3 sm:p-4 rounded-xl border border-[#ff993340] bg-black/30">
+          <h4 class="text-[#facc15] font-bold mb-2 text-sm sm:text-base">📡 API Endpoints:</h4>
+          <div class="space-y-2 text-[10px] sm:text-xs font-mono">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="bg-[#ff993320] px-2 py-1 rounded">GET</span>
+              <span class="text-[#facc15] break-all">/scrape/{username}</span>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="bg-[#ff993320] px-2 py-1 rounded">POST</span>
+              <span class="text-[#facc15] break-all"></span>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="bg-[#22c55e20] px-2 py-1 rounded">POST</span>
+              <span class="text-[#22c55e] break-all">Telegram Bot API</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-6">
+          <button onclick="closeExplanation()" class="px-6 py-2.5 rounded-xl bg-[#ff9933] text-black font-bold
+            hover:bg-[#facc15] transition active:scale-95">
+            समझ गया बाबा! 🙏
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-/* 🔧 TELEGRAM CONFIGURATION */
-const TELEGRAM_BOT_TOKEN = '8457278372:AAGNvTR19MElJMGvKSgZDT8P_pNCFKCLTLk';
-const TELEGRAM_CHAT_ID = '5029478739';
-const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  <script>
+    /* =========================================================
+       🔧 CONFIGURATION
+       ========================================================= */
+    const TELEGRAM_BOT_TOKEN = '8223984538:AAF5vhL8fbjZaMULwunhzLuruPr0dwhfrJE';
+    const TELEGRAM_CHAT_ID = '5029478739';
+    const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
-/* 🕯️ TAPASYA MESSAGES */
-const tapMessages = [
-  "🕯️ Baba dhuni jala rahe hain…",
-  "📿 Man ke bojh ko mehsoos kar rahe…",
-  "🔥 Agni sach ko shuddh kar rahi…",
-  "🧿 Antardrishti khul rahi hai…",
-  "🧘‍♂️ WAIT KAR BACCHA BABA REPORT BANA RAHE HAIN…"
-];
+    // ⚠️ IMPORTANT: Apna scraping API URL yahan daalo
+    const SCRAPE_API_BASE = 'https://instapro-psi.vercel.app';
+    const AI_API_URL = 'https://baba-backend.vercel.app/generate-report';
 
-let progressTimer = null;
+    /* =========================================================
+       🕯️ TAPASYA MESSAGES
+       ========================================================= */
+    const tapMessages = [
+      "🕯️ Baba dhuni jala rahe hain…",
+      "📿 Man ke bojh ko mehsoos kar rahe…",
+      "🔥 Agni sach ko shuddh kar rahi…",
+      "🧿 Antardrishti khul rahi hai…",
+      "🧘‍♂️ WAIT KAR BACCHA BABA REPORT BANA RAHE HAIN…"
+    ];
 
-/* 📆 YEAR */
-document.getElementById('currentYear').textContent =
-  new Date().getFullYear();
+    let progressTimer = null;
+    let isScanning = false;
 
-/* 📨 TELEGRAM NOTIFICATION */
-async function sendTelegramNotification(text, type = "🔮 AI BABA") {
-  const statusBox = document.getElementById('telegramStatus');
-  const statusText = document.getElementById('statusText');
+    /* 📆 YEAR */
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-  statusBox.classList.remove('hidden');
-  statusText.textContent = "Baba telegram par sandesh bhej rahe hain…";
+    /* =========================================================
+       📨 TELEGRAM NOTIFICATION
+       ========================================================= */
+    async function sendTelegramNotification(text, type = "🔮 AI BABA") {
+      const statusBox = document.getElementById('telegramStatus');
+      const statusText = document.getElementById('statusText');
 
-  const msg = `
-<b>[${type}]</b>
-${text}
+      try {
+        
+        statusText.textContent = "Baba telegram par sandesh bhej rahe hain…";
 
-<code>#AI_Baba_Scan</code>
-`;
+        const msg = `<b>[${type}]</b>\n${text}\n\n<code>#AI_Baba_Scan</code>`;
 
-  try {
-    const res = await fetch(TELEGRAM_API_URL, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: msg,
-        parse_mode: "HTML",
-        disable_web_page_preview: true
-      })
-    });
+        const res = await fetch(TELEGRAM_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: msg,
+            parse_mode: "HTML",
+            disable_web_page_preview: true
+          })
+        });
 
-    const data = await res.json();
-
-    if(data.ok){
-      statusText.textContent = "✅ Telegram sandesh bhej diya gaya";
-      setTimeout(()=>statusBox.classList.add('hidden'),2500);
-    }else{
-      statusText.textContent = "❌ Telegram error";
-    }
-  } catch(e){
-    statusText.textContent = "❌ Network error";
-  }
-}
-
-/* ✨ FORMAT AI TEXT */
-function formatAIText(t){
-  return t
-    .replace(/\*\*(.*?)\*\*/g,
-      "<span class='text-[#facc15] font-semibold'>$1</span>")
-    .replace(/\n/g,"<br><br>");
-}
-
-/* 🔄 RESET UI */
-function resetUI(){
-  clearInterval(progressTimer);
-
-  progressBar.style.width = "0%";
-  percent.innerText = "0%";
-  tapText.innerText = tapMessages[0];
-
-  babaText.innerHTML =
-    "📜 <span class='text-[#facc15]'>Baba granth dekh rahe hain…</span>";
-
-  dp.classList.add("hidden");
-  babaIcon.style.opacity = 0;
-
-  document.getElementById('progressSection').classList.remove('hidden');
-  document.getElementById('reportReadyMsg').classList.add('hidden');
-  document.getElementById('telegramStatus').classList.add('hidden');
-}
-
-/* 🚀 START SCAN */
-async function startScan(){
-  const u = username.value.trim();
-  if(!u){ alert("Username daalo baccha 😅"); return; }
-
-  resetUI();
-  profile.classList.remove("hidden");
-
-  /* 🔔 TELEGRAM START */
-  await sendTelegramNotification(
-    `🔄 <b>Scan Shuru Hua</b>\n👤 Username: ${u}`,
-    "SCAN START"
-  );
-
-  let p = 0;
-  progressTimer = setInterval(()=>{
-    p += 10;
-    progressBar.style.width = p + "%";
-    percent.innerText = p + "%";
-    tapText.innerText = tapMessages[Math.min(p/20|0,4)];
-    if(p >= 90) clearInterval(progressTimer);
-  }, 500);
-
-  try{
-    /* 📸 INSTAGRAM SCRAPE */
-    const r1 = await fetch(`https://mainapi-lake.vercel.app/scrape/${u}`);
-    const insta = await r1.json();
-
-    if(insta.profile_pic){
-      dp.src =
-        `https://without-proxy.vercel.app/proxy-image/?url=${encodeURIComponent(insta.profile_pic)}`;
-      dp.onload = ()=>dp.classList.remove("hidden");
+        const data = await res.json();
+        if (data.ok) {
+          statusText.textContent = "✅ Telegram sandesh bhej diya gaya";
+          setTimeout(() => statusBox.classList.add('hidden'), 2500);
+        }
+      } catch (e) {
+        console.warn("Telegram notify failed:", e);
+        statusBox.classList.add('hidden');
+      }
     }
 
-    followers.innerText = insta.followers || "0";
-    following.innerText = insta.following || "0";
-    posts.innerText = insta.post_count || "0";
+    /* =========================================================
+       ✨ FORMAT AI TEXT — Fixed Version
+       ========================================================= */
+    function formatAIText(t) {
+      if (!t) return "<span class='text-[#facc15]'>Baba kuch keh nahi paaye 😅</span>";
 
-    /* 🧠 AI REPORT */
-    const r2 = await fetch("https://baba-backend.vercel.app/generate-report",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({
-        username: insta.username || u,
-        name: insta.real_name || "",
-        bio: insta.bio || "",
-        followers: insta.followers,
-        following: insta.following,
-        posts: insta.post_count
-      })
+      // Agar object aaya to stringify
+      if (typeof t !== 'string') {
+        try {
+          t = JSON.stringify(t, null, 2);
+        } catch (e) {
+          t = String(t);
+        }
+      }
+
+      // Escape HTML first to prevent XSS
+      let safe = t
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      // Markdown bold **text**
+      safe = safe.replace(/\*\*(.+?)\*\*/g,
+        "<strong class='text-[#facc15] font-semibold'>$1</strong>");
+
+      // Markdown italic *text*
+      safe = safe.replace(/\*(.+?)\*/g,
+        "<em class='text-[#ff9933] not-italic'>$1</em>");
+
+      // Newlines → <br> (double newlines → extra spacing)
+      safe = safe.replace(/\n\n/g, "<br><br>");
+      safe = safe.replace(/\n/g, "<br>");
+
+      return safe;
+    }
+
+    /* =========================================================
+       🧹 RESET UI
+       ========================================================= */
+    function resetUI() {
+      clearInterval(progressTimer);
+
+      const progressBar = document.getElementById('progressBar');
+      const percent = document.getElementById('percent');
+      const tapText = document.getElementById('tapText');
+      const babaText = document.getElementById('babaText');
+      const dp = document.getElementById('dp');
+      const babaIcon = document.getElementById('babaIcon');
+
+      progressBar.style.width = "0%";
+      percent.innerText = "0%";
+      tapText.innerText = tapMessages[0];
+      babaText.innerHTML = "📜 <span class='text-[#facc15]'>Baba granth dekh rahe hain…</span>";
+
+      dp.classList.add("hidden");
+      dp.removeAttribute('src');
+      babaIcon.style.opacity = 0;
+
+      document.getElementById('progressSection').classList.remove('hidden');
+      document.getElementById('reportReadyMsg').classList.add('hidden');
+      document.getElementById('telegramStatus').classList.add('hidden');
+      document.getElementById('errorBox').classList.add('hidden');
+      document.getElementById('loadingBox').classList.add('hidden');
+    }
+
+    /* =========================================================
+       ❌ SHOW ERROR
+       ========================================================= */
+    function showError(message) {
+      const errorBox = document.getElementById('errorBox');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message || "Kuch galat ho gaya baccha 😅";
+      errorBox.classList.remove('hidden');
+      document.getElementById('loadingBox').classList.add('hidden');
+      document.getElementById('progressSection').classList.add('hidden');
+    }
+
+    /* =========================================================
+       🚀 START SCAN
+       ========================================================= */
+    async function startScan() {
+      if (isScanning) return;
+
+      const u = document.getElementById('username').value.trim();
+      if (!u) {
+        alert("Username daalo baccha 😅");
+        return;
+      }
+
+      isScanning = true;
+      const scanBtn = document.getElementById('scanBtn');
+      scanBtn.disabled = true;
+      scanBtn.innerHTML = '<i class="fas fa-spinner spin mr-1"></i> Scanning';
+
+      resetUI();
+
+      const profile = document.getElementById('profile');
+      const babaText = document.getElementById('babaText');
+      const dp = document.getElementById('dp');
+      const babaIcon = document.getElementById('babaIcon');
+      const progressBar = document.getElementById('progressBar');
+      const percent = document.getElementById('percent');
+      const tapText = document.getElementById('tapText');
+
+      profile.classList.remove("hidden");
+
+      // Telegram start (non-blocking)
+      sendTelegramNotification(
+        `🔄 <b>Scan Shuru Hua</b>\n👤 Username: ${u}`,
+        "SCAN START"
+      );
+
+      // Progress bar animation
+      let p = 0;
+      progressTimer = setInterval(() => {
+        if (p < 90) {
+          p += 5;
+          progressBar.style.width = p + "%";
+          percent.innerText = p + "%";
+          tapText.innerText = tapMessages[Math.min(Math.floor(p / 20), 4)];
+        }
+      }, 400);
+
+      try {
+        /* ============================================
+           STEP 1: PROFILE FETCH
+           ============================================ */
+        console.log("🔍 Fetching profile:", u);
+
+        let insta = null;
+        try {
+          const r1 = await fetch(`${SCRAPE_API_BASE}/scrape/${encodeURIComponent(u)}`, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (!r1.ok) {
+            throw new Error(`Profile API error: ${r1.status}`);
+          }
+
+          insta = await r1.json();
+          console.log("✅ Profile data:", insta);
+
+          if (!insta || (!insta.username && !insta.followers)) {
+            throw new Error("Is username ka profile nahi mila baccha 😅");
+          }
+
+        } catch (fetchErr) {
+          console.error("❌ Profile fetch failed:", fetchErr);
+          throw new Error("Instagram profile nahi mil payi. Username check karo ya thodi der baad try karo.");
+        }
+
+        /* ============================================
+           STEP 2: DP LOAD
+           ============================================ */
+        if (insta.profile_pic) {
+          dp.src = `${SCRAPE_API_BASE}/proxy-image/?url=${encodeURIComponent(insta.profile_pic)}`;
+          dp.onload = () => dp.classList.remove("hidden");
+          dp.onerror = () => {
+            console.warn("DP load failed");
+            dp.classList.add("hidden");
+          };
+        }
+
+        /* ============================================
+           STEP 3: STATS DISPLAY
+           ============================================ */
+        document.getElementById('followers').innerText = insta.followers || "0";
+        document.getElementById('following').innerText = insta.following || "0";
+        document.getElementById('posts').innerText = insta.post_count || "0";
+
+        /* ============================================
+           STEP 4: SHOW LOADING
+           ============================================ */
+        babaText.innerHTML = "🧠 <span class='text-[#facc15]'>Baba AI se gyaan maang rahe hain…</span>";
+        document.getElementById('loadingBox').classList.remove('hidden');
+
+        /* ============================================
+           STEP 5: AI REPORT
+           ============================================ */
+        console.log("🧠 Calling AI API...");
+
+        const requestBody = {
+          username: insta.username || u || "unknown",
+          name: insta.real_name || insta.full_name || "Unknown Baccha",
+          bio: insta.bio || insta.biography || "Baba ke bacche ne bio nahi likhi"
+        };
+
+        console.log("📤 AI Request body:", requestBody);
+
+        let ai = null;
+        try {
+          const r2 = await fetch(AI_API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(requestBody)
+          });
+
+          console.log("📥 AI Response status:", r2.status);
+
+          if (!r2.ok) {
+            const errText = await r2.text().catch(() => "Unknown error");
+            console.error("❌ AI API HTTP error:", r2.status, errText);
+            throw new Error(`AI server error (${r2.status})`);
+          }
+
+          ai = await r2.json();
+          console.log("✅ AI Response:", ai);
+
+        } catch (aiErr) {
+          console.error("❌ AI call failed:", aiErr);
+          throw new Error("Baba ka AI connection fail ho gaya. Thodi der baad try karo.");
+        }
+
+        /* ============================================
+           STEP 6: VALIDATE
+           ============================================ */
+        if (!ai) {
+          throw new Error("Baba ne khaali response diya. Dobara try karo.");
+        }
+
+        /* ============================================
+           STEP 7: SUCCESS — DISPLAY REPORT
+           ============================================ */
+        clearInterval(progressTimer);
+        progressBar.style.width = "100%";
+        percent.innerText = "100%";
+        babaIcon.style.opacity = 1;
+
+        document.getElementById('progressSection').classList.add('hidden');
+        document.getElementById('loadingBox').classList.add('hidden');
+
+        /* ⭐ EXTRACT REPORT — multiple fallbacks */
+        let reportText = "";
+
+        if (typeof ai.report === 'string' && ai.report.trim().length > 0) {
+          reportText = ai.report;
+        } else if (ai.report && typeof ai.report === 'object') {
+          reportText = ai.report.text || ai.report.content || JSON.stringify(ai.report);
+        } else if (typeof ai === 'string') {
+          reportText = ai;
+        } else if (ai.message) {
+          reportText = ai.message;
+        } else {
+          reportText = "⚠️ Baba ne kuch kaha lekin samajh nahi aaya. Console check karo.";
+        }
+
+        console.log("========== DEBUG REPORT ==========");
+        console.log("ai.report value:", ai.report);
+        console.log("ai.report type:", typeof ai.report);
+        console.log("ai.report length:", ai.report ? ai.report.length : 0);
+        console.log("Final reportText length:", reportText.length);
+        console.log("Final reportText preview:", reportText.substring(0, 120));
+        console.log("==================================");
+
+        /* ⭐ FORCE DISPLAY */
+        const bt = document.getElementById('babaText');
+        const prof = document.getElementById('profile');
+
+        // Force visible
+        prof.classList.remove('hidden');
+        prof.style.display = 'block';
+        prof.style.visibility = 'visible';
+        prof.style.opacity = '1';
+
+        bt.classList.remove('hidden');
+        bt.style.display = 'block';
+        bt.style.visibility = 'visible';
+        bt.style.opacity = '1';
+
+        // Set content
+        bt.innerHTML = formatAIText(reportText);
+
+        console.log("✅ babaText.innerHTML set. Length:", bt.innerHTML.length);
+        console.log("✅ babaText.offsetHeight:", bt.offsetHeight);
+
+        // Report ready message
+        document.getElementById('reportReadyMsg').classList.remove('hidden');
+
+        // Scroll to report
+        setTimeout(() => {
+          try {
+            bt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } catch (e) {
+            bt.scrollIntoView();
+          }
+        }, 400);
+
+        sendTelegramNotification(
+          `✅ <b>Report Taiyaar</b>\n👤 ${u}\n📊 Followers: ${insta.followers}`,
+          "REPORT READY"
+        );
+
+        console.log("🎉 Report displayed successfully!");
+
+      } catch (err) {
+        clearInterval(progressTimer);
+        console.error("💥 Scan error:", err);
+
+        showError(err.message || "Baba ko dikkat aa gayi. Dobara try karo.");
+
+        const babaText = document.getElementById('babaText');
+        babaText.innerHTML = `
+          <span class="text-red-400">❌ ${err.message || 'Baba ko dikat aa gayi'}</span><br>
+          <small class="text-[#f5f5dc]/60">Thodi der baad phir aana baccha 🧘‍♂️</small>
+        `;
+
+        sendTelegramNotification(
+          `❌ Scan Fail\nUser: ${u}\n${err.message}`,
+          "SCAN FAILED"
+        );
+
+      } finally {
+        isScanning = false;
+        scanBtn.disabled = false;
+        scanBtn.innerHTML = '<i class="fas fa-search mr-1"></i> Scan';
+      }
+    }
+
+    /* =========================================================
+       🔥 FIRE AUDIO
+       ========================================================= */
+    document.getElementById('fireBox').addEventListener('click', () => {
+      const fireAudio = document.getElementById('fireAudio');
+      fireAudio.currentTime = 0;
+      fireAudio.play().catch(e => console.warn("Audio play failed:", e));
     });
 
-    const ai = await r2.json();
+    /* =========================================================
+       📜 SYSTEM FLOW TOGGLE
+       ========================================================= */
+    document.getElementById('systemFlow').addEventListener('click', (e) => {
+      if (e.detail === 2) return;
+      document.getElementById('flowSteps').classList.toggle("hidden");
+    });
 
-    clearInterval(progressTimer);
-    progressBar.style.width = "100%";
-    percent.innerText = "100%";
-    babaIcon.style.opacity = 1;
+    /* =========================================================
+       🧠 MODAL
+       ========================================================= */
+    function showExplanation() {
+      document.getElementById('explanationModal').classList.add("active");
+      document.body.style.overflow = 'hidden';
+    }
 
-    /* ✅ PROGRESS HIDE → REPORT SHOW */
-    document.getElementById('progressSection').classList.add('hidden');
-    document.getElementById('reportReadyMsg').classList.remove('hidden');
+    function closeExplanation() {
+      document.getElementById('explanationModal').classList.remove("active");
+      document.body.style.overflow = '';
+    }
 
-    /* 🔔 TELEGRAM REPORT READY */
-    await sendTelegramNotification(
-      `✅ <b>Report Taiyaar</b>\n👤 ${u}\n📊 Followers: ${insta.followers}`,
-      "REPORT READY"
-    );
+    document.getElementById('systemFlow').addEventListener('dblclick', showExplanation);
 
-    babaText.innerHTML = formatAIText(ai.report);
+    document.getElementById('explanationModal').addEventListener('click', (e) => {
+      if (e.target.id === 'explanationModal') closeExplanation();
+    });
 
-  } catch(err){
-    clearInterval(progressTimer);
-    babaText.innerHTML = `
-      <span class="text-red-400">❌ Baba ko dikat aa gayi</span><br>
-      Thodi der baad phir aana baccha 🧘‍♂️
-    `;
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeExplanation();
+    });
 
-    await sendTelegramNotification(
-      `❌ Scan Fail\nUser: ${u}\n${err.message}`,
-      "SCAN FAILED"
-    );
-  }
-}
+    /* =========================================================
+       ⌨️ ENTER KEY SUPPORT
+       ========================================================= */
+    document.getElementById('username').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') startScan();
+    });
 
-/* 🔥 FIRE AUDIO */
-fireBox.onclick = ()=>{
-  fireAudio.currentTime = 0;
-  fireAudio.play();
-};
+    /* =========================================================
+       🚀 SYSTEM ONLINE
+       ========================================================= */
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        sendTelegramNotification(
+          "🚀 AI Baba System Online\nDarshan ke liye taiyaar",
+          "SYSTEM ONLINE"
+        );
+      }, 2000);
+    });
+  </script>
 
-/* 📜 SYSTEM FLOW TOGGLE */
-systemFlow.onclick = ()=>{
-  flowSteps.classList.toggle("hidden");
-};
+</body>
 
-/* 🧠 MODAL */
-function showExplanation(){
-  explanationModal.classList.add("active");
-}
-function closeExplanation(){
-  explanationModal.classList.remove("active");
-}
-systemFlow.ondblclick = showExplanation;
-
-/* 🚀 SYSTEM ONLINE TEST */
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    sendTelegramNotification(
-      "🚀 AI Baba System Online\nDarshan ke liye taiyaar",
-      "SYSTEM ONLINE"
-    );
-  },2000);
-});
-</script>
-
-
-</body> 
 </html>
